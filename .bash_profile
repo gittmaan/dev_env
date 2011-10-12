@@ -2,8 +2,6 @@
 export PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/opt/local/bin:/opt/local/sbin:$PATH
 # Finished adapting your PATH environment variable for use with MacPorts.
 
-. /etc/git-completion.bash 
-
 export PATH=$PATH:/Developer/android/android-sdk-mac_86/tools:/Developer/android/android-sdk-mac_86
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"  # This loads RVM into a shell session.
 
@@ -12,18 +10,51 @@ function parse_git_branch {
   echo "("${ref#refs/heads/}")"
 }
 
-# iTerm Tab and Title Customization and prompt customization
+. /etc/git-completion.bash
 
-# Put the string " [bash]   hostname::/full/directory/path"
-# in the title bar using the command sequence
-# \[\e]2;[bash]   \h::\]$PWD\[\a\]
+function __git_dirty {
+git diff --quiet HEAD &>/dev/null
+[ $? == 1 ] && echo "!"
+}
 
-# Put the penultimate and current directory 
-# in the iterm tab
-# \[\e]1;\]$(basename $(dirname $PWD))/\W\[\a\]
+function __git_branch {
+local branch=$(__git_ps1 "%s")
+if [ "$branch" != "" ]; then
+echo "($branch)"
+fi
+}
 
-# Make a simple command-line prompt:  bash-$
+function __my_rvm_ruby_version {
+local gemset=$(echo $GEM_HOME | awk -F'@' '{print $2}')
+[ "$gemset" != "" ] && gemset="@$gemset"
+local version=$(echo $MY_RUBY_HOME | awk -F'-' '{print $2}')
+[ "$version" == "1.8.7" ] && version=""
+local full="$version$gemset"
+[ "$full" != "" ] && echo "$full "
+}
 
-export PS1="\[\033[38m\]\u@\h\[\033[01;36m\] \w \[\033[33m\]\`ruby -e \"print (%x{git branch 2> /dev/null}.split(%r{\n}).grep(/^\*/).first || '').gsub(/^\* (.+)$/, '(\1) ')\"\`\[\033[37m\]$\[\033[00m\] "
+# via http://tammersaleh.com/posts/a-better-rvm-bash-prompt
+bash_prompt() {
+local NONE="\[\033[0m\]" # unsets color to term's fg color
+
+# regular colors
+local K="\[\033[0;30m\]" # black
+local R="\[\033[0;31m\]" # red
+local G="\[\033[0;32m\]" # green
+local Y="\[\033[0;33m\]" # yellow
+local YBold="\[\033[01;33m\]" # yellow
+local B="\[\033[0;34m\]" # blue
+local M="\[\033[0;35m\]" # magenta
+local C="\[\033[0;36m\]" # cyan
+local CBold="\[\033[01;36m\]" # cyan
+local W="\[\033[0;37m\]" # white
+
+local UC=$W # user's color
+[ $UID -eq "0" ] && UC=$R # root's color
+
+PS1="$W\u $G\$(rvm-prompt v g) $CBold\w $YBold\$(__git_branch)$R\$(__git_dirty)${NONE}$ "
+}
+
+bash_prompt
 
 
