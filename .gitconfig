@@ -1,0 +1,17 @@
+[color]
+	diff = auto
+	ui = true
+[core]
+	editor = /usr/bin/vim
+[user]
+	name = gitman
+	email = 
+[alias]
+  c = checkout
+	lg = log --stat
+	lgb = log --no-merges --stat -i --stat master..
+	b = branch
+	br = branch -r
+	dcw = diff --ignore-all-space --color-words --cached
+  
+
