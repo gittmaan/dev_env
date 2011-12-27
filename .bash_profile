@@ -62,7 +62,7 @@ if [ -f $RVM_FILE ];
 then
   PS1="$W\u $G\$(rvm-prompt v g) $CBold\w $YBold\$(__git_branch)$R\$(__git_dirty)${NONE}$ "
 else
-  PS1="$W\u@\h $G\$(v g) $R\w $Y\$(__git_branch)$R\$(__git_dirty)${NONE}$ "
+  PS1="$W\u $G\$(v g) $CBold\w $YBold\$(__git_branch)$R\$(__git_dirty)${NONE}$ "
 fi
 
 }
