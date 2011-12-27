@@ -3,7 +3,13 @@ export PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/opt/local/bin:/opt/lo
 # Finished adapting your PATH environment variable for use with MacPorts.
 
 export PATH=$PATH:/Developer/android/android-sdk-mac_86/tools:/Developer/android/android-sdk-mac_86
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"  # This loads RVM into a shell session.
+
+RVM_FILE="$HOME/.rvm/scripts/rvm"
+
+if [ -f $RVM_FILE ];
+then
+   [[ -s $RVM_FILE ]] && source $RVM_FILE  # This loads RVM into a shell session.
+fi
 
 function parse_git_branch {
   ref=$(git symbolic-ref HEAD 2> /dev/null) || return
@@ -52,7 +58,13 @@ local W="\[\033[0;37m\]" # white
 local UC=$W # user's color
 [ $UID -eq "0" ] && UC=$R # root's color
 
-PS1="$W\u $G\$(rvm-prompt v g) $CBold\w $YBold\$(__git_branch)$R\$(__git_dirty)${NONE}$ "
+if [ -f $RVM_FILE ];
+then
+  PS1="$W\u $G\$(rvm-prompt v g) $CBold\w $YBold\$(__git_branch)$R\$(__git_dirty)${NONE}$ "
+else
+  PS1="$W\u@\h $G\$(v g) $R\w $Y\$(__git_branch)$R\$(__git_dirty)${NONE}$ "
+fi
+
 }
 
 bash_prompt
