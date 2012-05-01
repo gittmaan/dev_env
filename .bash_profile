@@ -67,6 +67,8 @@ fi
 
 }
 
+RUBYOPT="-r`noexec`"
+
 bash_prompt
 
 
