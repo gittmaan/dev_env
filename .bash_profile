@@ -60,7 +60,7 @@ local UC=$W # user's color
 
 if [ -f $RVM_FILE ];
 then
-  PS1="$W\u $G\$(rvm-prompt v g) $CBold\w $YBold\$(__git_branch)$R\$(__git_dirty)${NONE}$ "
+  PS1="$W\u $G\$(__my_rvm_ruby_version v g) $CBold\w $YBold\$(__git_branch)$R\$(__git_dirty)${NONE}$ "
 else
   PS1="$W\u $G\$CBold\w $YBold\$(__git_branch)$R\$(__git_dirty)${NONE}$ "
 fi
