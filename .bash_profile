@@ -70,3 +70,7 @@ fi
 bash_prompt
 
 
+export ANDROID_HOME=/Users/girish/projects/mobile/Andriod/tools/android-sdk-macosx
+export ANT_HOME=/Cellar/ant/1.8.4
+export JAVA_HOME=/Library/Java/Home
+
